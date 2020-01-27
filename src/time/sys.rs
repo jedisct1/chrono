@@ -70,7 +70,7 @@ mod inner {
     use super::common::{time_to_tm, tm_to_time};
     use std::ops::{Add, Sub};
     use time::Tm;
-    use wasi::{clock_time_get, CLOCKID_MONOTONIC, CLOCKID_REALTIME};
+    use wasi::wasi_unstable::{clock_time_get, CLOCK_MONOTONIC, CLOCK_REALTIME};
     use Duration;
 
     #[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
@@ -105,14 +105,14 @@ mod inner {
     }
 
     pub fn get_precise_ns() -> u64 {
-        unsafe { clock_time_get(CLOCKID_REALTIME, 1_000_000_000) }
+        clock_time_get(CLOCK_REALTIME, 1_000_000_000)
             .expect("Host doesn't implement a real-time clock")
     }
 
     impl SteadyTime {
         pub fn now() -> SteadyTime {
             SteadyTime {
-                t: unsafe { clock_time_get(CLOCKID_MONOTONIC, 1_000_000_000) }
+                t: clock_time_get(CLOCK_MONOTONIC, 1_000_000_000)
                     .expect("Host doesn't implement a monotonic clock"),
             }
         }

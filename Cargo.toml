@@ -1,5 +1,5 @@
 [package]
-name = "chrono-wasi"
+name = "chrono-wasi07"
 version = "0.4.10"
 authors = [
     "Kang Seonghoon <public+rust@mearie.org>",
@@ -56,7 +56,7 @@ libc = "0.2.1"
 mach = "0.3"
 
 [target.'cfg(target_os = "wasi")'.dependencies]
-wasi = "=0.9.0"
+wasi = "0.7"
 
 [dev-dependencies]
 serde_json = { version = "1", default-features = false }
